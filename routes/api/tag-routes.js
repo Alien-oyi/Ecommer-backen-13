@@ -48,13 +48,31 @@ router.get('/:id',async (req, res) => {
       }
 })
 
-router.post('/', (req, res) => {
-  // create a new tag
-});
-
 router.put('/:id', (req, res) => {
   // update a tag's name by its `id` value
+  Tag.update(
+    {
+      tag_name: req.body.tag_name
+    },
+    {
+      where: {
+        id: req.params.id
+      }
+    }
+  )
+  .then(TagData => {
+    if (!TagData) {
+        res.status(404).json({ message: 'No Tag found with this id' });
+        return;
+    }
+    res.json(TagData);
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json(err);
+  });
 });
+
 
 router.delete('/:id', (req, res) => {
   // delete on tag by its `id` value
