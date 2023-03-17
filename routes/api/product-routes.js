@@ -117,8 +117,33 @@ router.put('/:id', (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id',async (req, res) => {
   // delete one product by its `id` value
-});
+  try {
+  const productId = req.params.id;
+  const product = await Product.findOne({
+    where: { id: productId },
+    include: [
+      {
+        model: Category
+      },
+      {
+        model: Tag,
+        attributes: ['tag_name'],
+        through: ProductTag,
+        as: 'productTag_tag'
+      }
+    ]
+  });
 
+  if (!product) {
+    return res.status(404).json({ message: "Product not found" });
+  }
+  await product.destroy();
+  return res.status(200).json({message:"product deleted"});
+} catch (error) {
+  console.error(error);
+  return res.status(500).json({ message: "Internal server error" });
+}
+})
 module.exports = router;
