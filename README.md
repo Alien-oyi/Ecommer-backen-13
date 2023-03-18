@@ -16,6 +16,9 @@
 ## Description
 Manage orders, inventory
 
+## Walkthrough Video
+https://drive.google.com/file/d/1cm8zwX8EoWwPw_xVON_FYgULCbazur8i/view
+
 ## Deployed Link
 None
 
